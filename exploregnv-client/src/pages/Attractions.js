@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
 import '../App.css';
 import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 import axios from 'axios';
 
 function Attractions() {
   const [attractions, setAttractions] = useState([]);
-  const navigate = useNavigate();
   const [likedAttractions, setLikedAttractions] = useState([]);
 
   useEffect(() => {
@@ -21,18 +20,19 @@ function Attractions() {
 
   const handleLikedAttractions = (attraction) => {
     if (!likedAttractions.find(item => item.id === attraction.id)) {
-      setLikedAttractions([...likedAttractions, attraction]);
+      setLikedAttractions([...likedAttractions, attraction.id]);
     }
   };   
 
   return (
     <div className="blank-page">
       <Header />
+      <Sidebar />
       <h1>Explore what Gainesville has to offer!</h1>
 
-      <div>
+        <div>
         {attractions.map((attraction) => (
-          <div key={attraction.id}>
+            <div key={attraction.id}>
             <h2>{attraction.name}</h2>
             <p>{attraction.description}</p>
             <p><strong>Category:</strong> {attraction.category}</p>
@@ -44,10 +44,10 @@ function Attractions() {
             <p><strong>Hours of Operation:</strong> {attraction.hours_of_operation}</p>
             <p><strong>New Updates:</strong> {attraction.new_updates}</p>
             {attraction.image_url && <img src={attraction.image_url} alt={attraction.name} style={{width: '500px'}} />}
-            <p><button onClick={() => handleLikedAttractions(attraction)}>Click to Like this Attraction</button></p>
-          </div>
+            <p><button onClick={() => handleLikedAttractions(attraction.id)}>Click to Like this Attraction</button></p>
+            </div>
         ))}
-      </div>
+        </div>
 
     </div>
   );
