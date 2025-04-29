@@ -26,6 +26,64 @@ db.connect((err) => {
   }
 });
 
+app.post('/signup', (req, res) => { // user signup route
+    const { username, password } = req.body;
+  
+    if (!username.endsWith('@gmail.com')) {
+      return res.status(400).json({ message: 'Your username must end in @gmail.com.'});
+    }
+  
+    db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+      if (err) {
+        return res.status(500).json({ message: 'Database error' });
+      }
+  
+      if (results.length > 0) {
+        return res.status(400).json({ message: 'Account with email already exists. Please log in.' });
+      }
+  
+      db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (insertErr, result) => {
+        if (insertErr) {
+          return res.status(500).json({ message: 'Error creating account' });
+        }
+  
+        res.status(201).json({ message: 'Account created successfully' });
+      });
+    });
+});
+
+app.post('/login', (req, res) => { // user login route
+    const { username, password } = req.body;
+  
+    db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
+      if (err) {
+        return res.status(500).json({ message: 'Database error' });
+      }
+  
+      if (results.length === 0) {
+        return res.status(400).json({ message: 'Username and/or password is incorrect or does not exist' });
+      }
+  
+      const user = results[0];
+      const token = jwt.sign({ userId: user.id, username: user.username }, 'your_jwt_secret', { expiresIn: '1h' });
+  
+      res.status(200).json({ message: 'Login successful', token });
+    });
+});
+
+app.get('/attractions', (req, res) => { // get attractions route
+  const query = 'SELECT * FROM attractions';
+
+  db.query(query, async (err, results) => {
+    if (err) {
+      console.error('Error fetching attractions:', err);
+      return res.status(500).json({ message: 'Database error' });
+    }
+
+    res.status(200).json(results);
+  });
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`); // start the server
   });
