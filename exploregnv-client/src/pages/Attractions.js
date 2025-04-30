@@ -24,15 +24,18 @@ function Attractions() {
     }
   };   
 
+  const handleUnLikedAttractions = () => {
+  
+  };
+
   return (
     <div className="blank-page">
       <Header />
       <Sidebar />
       <h1>Explore what Gainesville has to offer!</h1>
-
-        <div>
+      <div className="attractions-container">
         {attractions.map((attraction) => (
-            <div key={attraction.id}>
+            <div className="attraction-card" key={attraction.id}>
             <h2>{attraction.name}</h2>
             <p>{attraction.description}</p>
             <p><strong>Category:</strong> {attraction.category}</p>
@@ -43,12 +46,16 @@ function Attractions() {
             <p><strong>Social Media:</strong> {attraction.social_media && <a href={attraction.social_media} target="_blank" rel="noopener noreferrer">Click to view Instagram page</a>}</p>
             <p><strong>Hours of Operation:</strong> {attraction.hours_of_operation}</p>
             <p><strong>New Updates:</strong> {attraction.new_updates}</p>
-            {attraction.image_url && <img src={attraction.image_url} alt={attraction.name} style={{width: '500px'}} />}
-            <p><button onClick={() => handleLikedAttractions(attraction.id)}>Click to Like this Attraction</button></p>
+            {attraction.image_url && (
+                <img src={attraction.image_url} alt={attraction.name} style={{ width: '100%', borderRadius: '8px' }} />
+            )}
+            <div className="attraction-buttons">
+                <button onClick={() => handleLikedAttractions(attraction)}>Click to Like this Attraction</button>
+                <button onClick={() => handleUnLikedAttractions(attraction)}>Click to Unlike this Attraction</button>
+            </div>
             </div>
         ))}
         </div>
-
     </div>
   );
 }
