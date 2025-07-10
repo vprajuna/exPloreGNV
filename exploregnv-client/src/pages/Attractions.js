@@ -7,26 +7,32 @@ import axios from 'axios';
 function Attractions() {
   const [attractions, setAttractions] = useState([]);
   const [likedAttractions, setLikedAttractions] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     axios.get('http://localhost:3000/attractions')
       .then(response => {
         setAttractions(response.data);
+        setLoading(false); 
       })
       .catch(error => {
         console.error('Error fetching attractions:', error);
+        setLoading(false);
       });
   }, []);
 
-  const handleLikedAttractions = (attraction) => {
-    if (!likedAttractions.find(item => item.id === attraction.id)) {
-      setLikedAttractions([...likedAttractions, attraction.id]);
-    }
-  };   
-
-  const handleUnLikedAttractions = () => {
-  
+  const handleLikedAttractions = () => {
+    const [current, ...rest] = attractions;
+    setLikedAttractions([...likedAttractions, current.id]);
+    setAttractions(rest);
   };
+
+  const handleDisLikedAttractions = () => {
+    const [current, ...rest] = attractions;
+    setAttractions([...rest, current]); 
+  };
+
+  const currentAttraction = attractions[0];
 
   return (
     <div className="blank-page">
@@ -34,28 +40,36 @@ function Attractions() {
       <Sidebar />
       <h1>Explore what Gainesville has to offer!</h1>
       <div className="attractions-container">
-        {attractions.map((attraction) => (
-            <div className="attraction-card" key={attraction.id}>
-            <h2>{attraction.name}</h2>
-            <p>{attraction.description}</p>
-            <p><strong>Category:</strong> {attraction.category}</p>
-            <p><strong>Address:</strong> {attraction.address}</p>
-            <p><strong>Website:</strong> {attraction.website && <a href={attraction.website} target="_blank" rel="noopener noreferrer">Click to view website</a>}</p>
-            <p><strong>Phone:</strong> {attraction.phone}</p>
-            <p><strong>Email:</strong> {attraction.email}</p>
-            <p><strong>Social Media:</strong> {attraction.social_media && <a href={attraction.social_media} target="_blank" rel="noopener noreferrer">Click to view Instagram page</a>}</p>
-            <p><strong>Hours of Operation:</strong> {attraction.hours_of_operation}</p>
-            <p><strong>New Updates:</strong> {attraction.new_updates}</p>
-            {attraction.image_url && (
-                <img src={attraction.image_url} alt={attraction.name} style={{ width: '100%', borderRadius: '8px' }} />
+        {loading ? (
+          <p>Loading attractions...</p>
+        ) : currentAttraction ? (
+          <div className="attraction-card" key={currentAttraction.id}>
+            <h2>{currentAttraction.name}</h2>
+            <p>{currentAttraction.description}</p>
+            <p><strong>Category:</strong> {currentAttraction.category}</p>
+            <p><strong>Address:</strong> {currentAttraction.address}</p>
+            <p><strong>Website:</strong> {currentAttraction.website && (
+              <a href={currentAttraction.website} target="_blank" rel="noopener noreferrer">Click to view website</a>
+            )}</p>
+            <p><strong>Phone:</strong> {currentAttraction.phone}</p>
+            <p><strong>Email:</strong> {currentAttraction.email}</p>
+            <p><strong>Social Media:</strong> {currentAttraction.social_media && (
+              <a href={currentAttraction.social_media} target="_blank" rel="noopener noreferrer">Click to view Instagram page</a>
+            )}</p>
+            <p><strong>Hours of Operation:</strong> {currentAttraction.hours_of_operation}</p>
+            <p><strong>New Updates:</strong> {currentAttraction.new_updates}</p>
+            {currentAttraction.image_url && (
+              <img src={currentAttraction.image_url} alt={currentAttraction.name} style={{ width: '100%', borderRadius: '8px' }} />
             )}
             <div className="attraction-buttons">
-                <button onClick={() => handleLikedAttractions(attraction)}>Click to Like this Attraction</button>
-                <button onClick={() => handleUnLikedAttractions(attraction)}>Click to Unlike this Attraction</button>
+              <button onClick={() => handleLikedAttractions(currentAttraction)}>Click to Like this Attraction</button>
+              <button onClick={() => handleDisLikedAttractions(currentAttraction)}>Click to Dislike this Attraction</button>
             </div>
-            </div>
-        ))}
-        </div>
+          </div>
+        ) : (
+          <h2>You've gone through all attractions!</h2>
+        )}
+      </div>
     </div>
   );
 }

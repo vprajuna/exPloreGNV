@@ -36,9 +36,19 @@ INSERT INTO attractions (id, name, description, category, address, website, phon
 ) VALUES (
     1, 'Flashbacks Recycled Fashions', 'Thrift store with Modern, vintage, and everything in between', 'Shopping',
     '220 NW 8th Ave, Gainesville, FL 32601', 'https://flashbacksrecycledfashions.com/', '(352) 375-3752', 'Not Available',
-    'https://www.instagram.com/flashbacksrecycledfashions/', 'Mon-Fri 12-6; Sat-Sun 12-6',
+    'https://www.instagram.com/flashbacksrecycledfashions/', 'Open All Week 12:00 PM-6:00 PM',
     'Now offering two daily walk-in appointments to sell your clothes. Must call (352) 375-3752 from 12:00-3:00 the
      day of to reserve. Tuesday through Saturday only.',
     '/flashbacks.jpg',
     FALSE
 );
+
+INSERT INTO attractions (id, name, description, category, address, website, phone, email, social_media, hours_of_operation, new_updates,
+    image_url, liked_by_user
+) VALUES (
+    2, 'Germain''s Chicken Sandwiches', 'A local restaurant specializing in chicken sandwiches, with a variety of toppings and sauces.',
+    'Food & Drink', '220 NW 8th Ave #10, Gainesville, FL 32601', 
+    'https://www.germainsgnv.com/', '(352) 554-4545', 'germainsgnv@gmail.com', 
+    'https://www.instagram.com/germains_gnv/', 'Mon-Thu 11:00 AM-8:00 PM; Fri-Sat 11:00 AM-9:00 PM; Sun Closed', 'Not Available',
+    'Need to Add here!!', FALSE
+); 
