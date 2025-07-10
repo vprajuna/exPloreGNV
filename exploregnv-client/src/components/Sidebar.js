@@ -21,6 +21,8 @@ const Sidebar = () => {
           <li><Link to="/home" onClick={toggleSidebar}>Home</Link></li>
           <li><Link to="/attractions" onClick={toggleSidebar}>New Attractions</Link></li>
           <li><Link to="/sorted-attractions" onClick={toggleSidebar}>Liked Attractions</Link></li>
+          <li><Link to="/add-attraction" onClick={toggleSidebar}>Add Attraction</Link></li>
+          <li><Link to="/" onClick={toggleSidebar}>Logout</Link></li>
         </ul>
       </div>
     </>

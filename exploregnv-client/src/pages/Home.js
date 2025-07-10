@@ -15,6 +15,10 @@ function Home() {
     navigate('/sorted-attractions'); 
   };
 
+  const handleAddAttractionClick = () => {
+    navigate('/add-attraction'); 
+  };
+
   return (
     <div className="blank-page">
       <Header />
@@ -24,6 +28,7 @@ function Home() {
         <h1>Home Page</h1>
         <p><button className="home-button" onClick={handleAttractionsClick}>Explore New Attractions</button></p>
         <p><button className="home-button" onClick={handleLikedAttractionsClick}>View Your Liked Attractions</button></p>
+        <p><button className="home-button" onClick={handleAddAttractionClick}>Add a New Attraction</button></p>
       </div>
     </div>
   );

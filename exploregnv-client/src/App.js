@@ -6,6 +6,7 @@ import SignUp from './pages/Signup';
 import Login from './pages/Login';
 import Attractions from './pages/Attractions';
 import SortedAttractions from './pages/SortedAttractions';
+import AddAttraction from './pages/AddAttraction';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/attractions" element={<Attractions />} />
         <Route path="/sorted-attractions" element={<SortedAttractions />} />
+        <Route path="/add-attraction" element={<AddAttraction />} />
       </Routes>
     </Router>
   );
