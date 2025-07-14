@@ -7,7 +7,7 @@ const axios = require('axios');
 const authenticateToken = require('./routes/auth');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -83,6 +83,39 @@ app.get('/attractions', (req, res) => { // get attractions route
     res.status(200).json(results);
   });
 });
+
+app.post('/liked-attractions', (req, res) => { // store liked attraction route
+  const { userId, attractionId } = req.body;
+
+  if (!userId || !attractionId) {
+    return res.status(400).json({ error: 'Missing userId or attractionId' });
+  }
+
+  const checkQuery = `SELECT * FROM liked_attractions WHERE user_id = ? AND attraction_id = ?`;
+  db.query(checkQuery, [userId, attractionId], (checkErr, checkResults) => {
+    if (checkErr) {
+      console.error('Check error:', checkErr);
+      return res.status(500).json({ error: 'Database error during check' });
+    }
+
+    if (checkResults.length > 0) {
+      return res.status(200).json({ message: 'Attraction already liked by user' });
+    }
+
+    const insertQuery = `INSERT INTO liked_attractions (user_id, attraction_id) VALUES (?, ?)`;
+    db.query(insertQuery, [userId, attractionId], (insertErr, result) => {
+      if (insertErr) {
+        console.error('Insert error:', insertErr);
+        return res.status(500).json({ error: 'Failed to like attraction' });
+      }
+
+      res.status(201).json({ message: 'Attraction liked successfully' });
+    });
+  });
+});
+ 
+
+// get liked attractions route
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`); // start the server

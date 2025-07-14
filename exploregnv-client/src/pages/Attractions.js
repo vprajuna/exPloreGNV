@@ -10,7 +10,7 @@ function Attractions() {
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    axios.get('http://localhost:3000/attractions')
+    axios.get('http://localhost:3001/attractions') // get the attractions from the database
       .then(response => {
         setAttractions(response.data);
         setLoading(false); 
@@ -25,6 +25,17 @@ function Attractions() {
     const [current, ...rest] = attractions;
     setLikedAttractions([...likedAttractions, current.id]);
     setAttractions(rest);
+
+    axios.post('http://localhost:3001/liked-attractions', { // store the liked attractions in the database
+      userId: 1,
+      attractionId: current.id 
+    }) 
+      .then(response => {
+        console.log('Attraction liked successfully:', response.data);
+      })
+      .catch(error => {
+        console.error('Error liking attraction:', error);
+      });
   };
 
   const handleDisLikedAttractions = () => {
