@@ -84,8 +84,9 @@ app.get('/attractions', (req, res) => { // get attractions route
   });
 });
 
-app.post('/liked-attractions', (req, res) => { // store liked attraction route
-  const { userId, attractionId } = req.body;
+app.post('/liked-attractions/1', (req, res) => { // store liked attraction route under userId
+  const userId = 1;
+  const { attractionId } = req.body;
 
   if (!userId || !attractionId) {
     return res.status(400).json({ error: 'Missing userId or attractionId' });
@@ -113,9 +114,29 @@ app.post('/liked-attractions', (req, res) => { // store liked attraction route
     });
   });
 });
- 
 
-// get liked attractions route
+app.get('/liked-attractions/1', (req, res) => { // get liked attractions route from userId
+  const userId = 1;
+
+  if (!userId) {
+    return res.status(400).json({ error: 'Missing or invalid userId' });
+  }
+
+  const query = `
+    SELECT a.* FROM liked_attractions la
+    JOIN attractions a ON la.attraction_id = a.id
+    WHERE la.user_id = ?
+  `;
+
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching liked attractions:', err);
+      return res.status(500).json({ message: 'Database error' });
+    }
+
+    res.status(200).json(results);
+  });
+});
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`); // start the server

@@ -8,6 +8,7 @@ function Attractions() {
   const [attractions, setAttractions] = useState([]);
   const [likedAttractions, setLikedAttractions] = useState([]);
   const [loading, setLoading] = useState(true); 
+  // const userId = 1; 
 
   useEffect(() => {
     axios.get('http://localhost:3001/attractions') // get the attractions from the database
@@ -26,8 +27,7 @@ function Attractions() {
     setLikedAttractions([...likedAttractions, current.id]);
     setAttractions(rest);
 
-    axios.post('http://localhost:3001/liked-attractions', { // store the liked attractions in the database
-      userId: 1,
+    axios.post(`http://localhost:3001/liked-attractions/1`, { // store the liked attractions in the database under the userId
       attractionId: current.id 
     }) 
       .then(response => {
