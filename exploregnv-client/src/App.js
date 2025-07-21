@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Attractions from './pages/Attractions';
 import SortedAttractions from './pages/SortedAttractions';
 import AddAttraction from './pages/AddAttraction';
+import Chatbot from './pages/Chatbot';
 import './App.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/attractions" element={<Attractions />} />
         <Route path="/sorted-attractions" element={<SortedAttractions />} />
         <Route path="/add-attraction" element={<AddAttraction />} />
+        <Route path="/chatbot" element={<Chatbot />} />
       </Routes>
     </Router>
   );

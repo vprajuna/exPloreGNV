@@ -19,38 +19,47 @@ function SortedAttractions() {
   }, []);
 
   return (
-    <div className="blank-page">
-      <Header />
-      <Sidebar />
-      <div className="content">
-        <h1>Liked Attractions</h1>
-        {likedAttractions.length === 0 ? (
-          <p>You haven't liked any attractions yet.</p>
-        ) : (
-          <ul className="attractions-list">
-            {likedAttractions.map(attraction => (
-              <li key={attraction.id} className="attraction-item">
-                <h2>{attraction.name}</h2>
-                <p>{attraction.description}</p>
-                <p><strong>Category:</strong> {attraction.category}</p>
-                <p><strong>Address:</strong> {attraction.address}</p>
-                {attraction.image_url && (
-                  <img
-                    src={attraction.image_url.startsWith('http') 
-                      ? attraction.image_url 
-                      : `http://localhost:3000${attraction.image_url}`
-                    }
-                    alt={attraction.name}
-                    style={{ width: '200px', height: 'auto' }}
-                  />
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+  <div className="blank-page">
+    <Header />
+    <Sidebar />
+    <div className="content">
+      <h1>Liked Attractions</h1>
+      {likedAttractions.length === 0 ? (
+        <p>You haven't liked any attractions yet.</p>
+      ) : (
+        <div className="attractions-container">
+          {['Shopping', 'Food and Drink'].map((category) => (
+            <div key={category}>
+              <h2 className="attractions-heading">{category}</h2>
+              <ul className="attractions-list">
+                {likedAttractions
+                  .filter((a) => a.category === category)
+                  .map((attraction) => (
+                    <li key={attraction.id} className="attraction-item">
+                      <h3>{attraction.name}</h3>
+                      <p>{attraction.description}</p>
+                      {attraction.image_url && (
+                        <img
+                          src={
+                            attraction.image_url.startsWith('http')
+                              ? attraction.image_url
+                              : `http://localhost:3000${attraction.image_url}`
+                          }
+                          alt={attraction.name}
+                          style={{ width: '200px', height: 'auto' }}
+                        />
+                      )}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
+
 }
 
 export default SortedAttractions;

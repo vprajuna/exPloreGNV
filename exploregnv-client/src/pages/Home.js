@@ -19,6 +19,10 @@ function Home() {
     navigate('/add-attraction'); 
   };
 
+  const handleChatbotClick = () => {
+    navigate('/chatbot');
+  };
+
   return (
     <div className="blank-page">
       <Header />
@@ -29,6 +33,7 @@ function Home() {
         <p><button className="home-button" onClick={handleAttractionsClick}>Explore New Attractions</button></p>
         <p><button className="home-button" onClick={handleLikedAttractionsClick}>View Your Liked Attractions</button></p>
         <p><button className="home-button" onClick={handleAddAttractionClick}>Add a New Attraction</button></p>
+        <p><button className="home-button" onClick={handleChatbotClick}>Chat with Us</button></p>
       </div>
     </div>
   );
